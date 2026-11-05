@@ -27,7 +27,7 @@ npm run build      # 类型检查 + 打包到 dist/
 npm run preview
 ```
 
-推送到 `main` 后，GitHub Actions（`.github/workflows/pages.yml`）自动构建并发布到 GitHub Pages。
+发布：合并到 `main` 后运行 `scripts/deploy-pages.sh`，会构建并把 `dist/` 作为新提交推到 `gh-pages` 分支（GitHub Pages 从该分支提供服务，不需要 force-push）。
 
 ## 模型与更新
 

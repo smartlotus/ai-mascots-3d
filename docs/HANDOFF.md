@@ -26,7 +26,8 @@ scripts/
   build-models.mjs         原始 GLB → 网页 GLB
   make-posters.mjs         渲染海报
   shot.mjs / stage.mjs     截图/验收脚本（Playwright + 本机 Chrome）
-.github/workflows/pages.yml  构建并发布到 GitHub Pages
+docs/pages.yml.example     可选：GitHub Actions 发布工作流模板（见“部署”）
+scripts/deploy-pages.sh    构建并发布到 gh-pages 分支
 ```
 
 ## 数据来源与约定（只写文件里有的事实）
@@ -50,7 +51,7 @@ scripts/
    npm run dev &
    npm run posters
    ```
-5. `npm run build`，提交，走分支 + PR 合并到 `main`，Actions 自动发布。
+5. `npm run build`，提交，走分支 + PR 合并到 `main`，然后运行 `scripts/deploy-pages.sh` 发布。
 
 ## 打印文件（3MF / STL）
 
@@ -58,10 +59,10 @@ scripts/
 
 ## 部署
 
-- GitHub Pages，来源 = GitHub Actions（仓库 Settings → Pages → Source 选 “GitHub Actions”，已用 API 开启）。
+- GitHub Pages，来源 = `gh-pages` 分支根目录。发布命令：`scripts/deploy-pages.sh`（构建 → 把 `dist/` 作为新提交推到 `gh-pages`，从不 force-push）。
+- 为什么不用 Actions：当时机器上的 gh 登录没有 `workflow` 权限，推不了工作流文件。模板留在 `docs/pages.yml.example`；以后如果 `gh auth refresh -s workflow` 授权过，可以把它移到 `.github/workflows/pages.yml`，并把 Pages 来源改成 “GitHub Actions”。
 - `vite.config.ts` 使用 `base: './'`，所以换仓库名/自定义域名都不需要改配置。
-- 手动重新发布：Actions → “Deploy to GitHub Pages” → Run workflow。
-- 回滚：`git revert` 对应合并提交后推送 `main`。
+- 回滚：在 `gh-pages` 分支上 `git revert` 最近的 deploy 提交并推送，或重新发布旧的 `main` 提交。
 
 ## 性能与兼容
 
