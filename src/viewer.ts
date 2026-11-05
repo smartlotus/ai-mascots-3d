@@ -1,6 +1,6 @@
 import {
-  ACESFilmicToneMapping, AmbientLight, CanvasTexture, CircleGeometry, Color, CylinderGeometry, DirectionalLight, Group, HemisphereLight, Mesh,
-  MeshStandardMaterial, Object3D, PCFSoftShadowMap, PMREMGenerator, PerspectiveCamera, Scene, ShadowMaterial, SRGBColorSpace, Vector3,
+  NeutralToneMapping, AmbientLight, CanvasTexture, CircleGeometry, Color, CylinderGeometry, DirectionalLight, Group, HemisphereLight, Mesh,
+  MeshStandardMaterial, Object3D, PCFShadowMap, PMREMGenerator, PerspectiveCamera, Scene, ShadowMaterial, SRGBColorSpace, Vector3,
   WebGLRenderer, MeshBasicMaterial, MathUtils, Box3, PlaneGeometry, LinearFilter,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -47,17 +47,17 @@ export class Viewer {
     this.renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: !!opts.poster });
     this.renderer.setClearColor(0x000000, 0);
     this.renderer.outputColorSpace = SRGBColorSpace;
-    this.renderer.toneMapping = ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.05;
+    this.renderer.toneMapping = NeutralToneMapping;
+    this.renderer.toneMappingExposure = 0.95;
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = PCFSoftShadowMap;
+    this.renderer.shadowMap.type = PCFShadowMap;
     this.dpr = Math.min(window.devicePixelRatio || 1, opts.poster ? 2 : isTouch ? 2 : 2);
 
     const pm = new PMREMGenerator(this.renderer);
     this.scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
-    this.scene.environmentIntensity = 0.62;
+    this.scene.environmentIntensity = 0.5;
     pm.dispose();
-    this.scene.add(new HemisphereLight(0xffffff, 0xd9d2c4, 0.55));
+    this.scene.add(new HemisphereLight(0xffffff, 0xd9d2c4, 0.35));
     this.scene.add(new AmbientLight(0xffffff, 0.12));
 
     this.key = new DirectionalLight(0xfff4e6, 2.2);
@@ -70,7 +70,7 @@ export class Viewer {
 
     this.discGeo = new CylinderGeometry(1.18, 1.22, 0.07, 72); this.discGeo.translate(0, -0.035, 0);
     this.discMat = new MeshStandardMaterial({ color: 0xece8de, roughness: 0.92, metalness: 0 });
-    this.blobTex = makeBlob(); this.blobMat = new MeshBasicMaterial({ map: this.blobTex, transparent: true, depthWrite: false, opacity: 0.55 });
+    this.blobTex = makeBlob(); this.blobMat = new MeshBasicMaterial({ map: this.blobTex, transparent: true, depthWrite: false, opacity: 0.32 });
 
     this.camera.position.set(2.2, 1.7, 5.4);
     this.controls = new OrbitControls(this.camera, canvas);
@@ -124,8 +124,8 @@ export class Viewer {
     const baseScale = scaleRef ?? own;
     inner.scale.setScalar(baseScale);
     const parts = new Map<string, Mesh>();
-    inner.traverse((o) => { const m = o as Mesh; if (m.isMesh) parts.set(m.name, m); });
-    const disc = new Mesh(this.discGeo, this.discMat); disc.receiveShadow = true; disc.castShadow = false;
+    inner.traverse((o) => { const m = o as Mesh; if (m.isMesh) { parts.set(m.name, m); m.userData.base = m.position.clone(); } });
+    const disc = new Mesh(this.discGeo, this.discMat); disc.receiveShadow = true; disc.castShadow = false; disc.visible = !this.opts.poster;
     const blob = new Mesh(new PlaneGeometry(2.9, 2.9), this.blobMat); blob.rotation.x = -Math.PI / 2; blob.position.y = 0.002; blob.renderOrder = -1;
     root.add(disc, blob);
     this.scene.add(root);
@@ -140,7 +140,7 @@ export class Viewer {
     if (token !== this.token) { this.disposeSlot(slot); return; }
     this.slots.push(slot);
     this.applyHidden(slot);
-    this.frame = { halfW: 1.45, halfH: 1.15, cy: Math.max(0.78, slot.height * 0.5 + 0.05) };
+    this.frame = { halfW: this.opts.poster ? 1.0 : 1.3, halfH: Math.max(0.62, slot.height * 0.5 + 0.3), cy: slot.height * 0.5 + 0.12 };
     this.fitCamera(!opts.keepView);
     this.wake();
   }
@@ -158,7 +158,7 @@ export class Viewer {
     this.slots.push(s1, s2);
     this.slots.forEach((s) => this.applyHidden(s));
     const h = Math.max(s1.height, s2.height);
-    this.frame = { halfW: 2.55, halfH: 1.15, cy: Math.max(0.78, h * 0.5 + 0.05) };
+    this.frame = { halfW: 2.55, halfH: Math.max(0.62, h * 0.5 + 0.3), cy: h * 0.5 + 0.12 };
     this.fitCamera(false);
     this.wake();
   }
@@ -186,7 +186,7 @@ export class Viewer {
     const vf = MathUtils.degToRad(this.camera.fov); const aspect = this.w / this.h;
     const hf = 2 * Math.atan(Math.tan(vf / 2) * aspect);
     const dV = this.frame.halfH / Math.tan(vf / 2), dH = this.frame.halfW / Math.tan(hf / 2);
-    return Math.max(dV, dH) * 1.12 + 1.1; // +深度余量，避免透视裁切
+    return Math.max(dV, dH) * 1.04 + 0.5; // +深度余量，避免透视裁切
   }
   private fitCamera(snap: boolean) {
     const d = this.fitDistance();
@@ -261,7 +261,8 @@ export class Viewer {
       const m = s.parts.get(k) as Mesh;
       // 沿“镜头前方 + 向上”按颜色分层错开，露出各颜色零件如何嵌合
       const t = (i - (n - 1) / 2) / Math.max(1, n - 1);
-      m.position.set(t * 0.55 * e, (i * 0.09 - 0.0) * e, (i * 0.5 - (n - 1) * 0.25) * e);
+      const base = m.userData.base as Vector3; const sc = 1 / (s.inner.scale.x || 1);
+      m.position.set(base.x + t * 0.55 * e * sc, base.y + i * 0.09 * e * sc, base.z + (i * 0.5 - (n - 1) * 0.25) * e * sc);
     });
   }
   private trackFps(now: number) {

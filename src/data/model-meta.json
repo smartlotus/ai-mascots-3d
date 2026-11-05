@@ -25,7 +25,7 @@
   ],
   "trisBefore": 249998,
   "trisAfter": 54996,
-  "bytes": 254016
+  "bytes": 249504
  },
  "codex-v1": {
   "size_mm": [
@@ -49,7 +49,7 @@
   ],
   "trisBefore": 212652,
   "trisAfter": 46782,
-  "bytes": 225692
+  "bytes": 219784
  },
  "qoder-v1": {
   "size_mm": [
@@ -73,7 +73,7 @@
   ],
   "trisBefore": 323742,
   "trisAfter": 71220,
-  "bytes": 311368
+  "bytes": 310692
  },
  "zcode-v1": {
   "size_mm": [
@@ -97,7 +97,7 @@
   ],
   "trisBefore": 215198,
   "trisAfter": 47342,
-  "bytes": 204636
+  "bytes": 209220
  },
  "notion-v1": {
   "size_mm": [
@@ -121,7 +121,7 @@
   ],
   "trisBefore": 365030,
   "trisAfter": 80304,
-  "bytes": 312696
+  "bytes": 334332
  },
  "antigravity-v1": {
   "size_mm": [
@@ -153,7 +153,7 @@
   ],
   "trisBefore": 159612,
   "trisAfter": 35108,
-  "bytes": 169072
+  "bytes": 164868
  },
  "claude-pixel": {
   "size_mm": [

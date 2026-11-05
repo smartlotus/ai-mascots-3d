@@ -21,9 +21,33 @@ const JOBS = [
   ['notion', 'pixel', 'out2/Pixel_Notion_Cube.glb'], ['antigravity', 'pixel', 'out2/Pixel_Antigravity_Arch.glb'],
 ];
 const CFG = {
-  v1: { ratio: 0.22, error: 0.004, crease: 70 },
+  v1: { ratio: 0.22, error: 0.004, crease: 70, smooth: 6 },
   pixel: { ratio: 1, error: 0, crease: 25 },
 };
+
+// Taubin 平滑（λ|μ，几乎不缩体积）：去掉 marching-cubes 的台阶/颗粒感
+function taubin(pos, idx, iters, lambda = 0.5, mu = -0.53) {
+  const nV = pos.length / 3; const deg = new Uint32Array(nV + 1);
+  const edges = new Set(); const pairs = [];
+  const add = (a, b) => { const k = a < b ? a * nV + b : b * nV + a; if (!edges.has(k)) { edges.add(k); pairs.push(a, b); deg[a + 1]++; deg[b + 1]++; } };
+  for (let t = 0; t < idx.length; t += 3) { add(idx[t], idx[t + 1]); add(idx[t + 1], idx[t + 2]); add(idx[t + 2], idx[t]); }
+  for (let i = 0; i < nV; i++) deg[i + 1] += deg[i];
+  const fill = deg.slice(); const nb = new Uint32Array(pairs.length);
+  for (let i = 0; i < pairs.length; i += 2) { nb[fill[pairs[i]]++] = pairs[i + 1]; nb[fill[pairs[i + 1]]++] = pairs[i]; }
+  let cur = Float32Array.from(pos); let nxt = new Float32Array(pos.length);
+  for (let it = 0; it < iters * 2; it++) {
+    const f = it % 2 === 0 ? lambda : mu;
+    for (let v = 0; v < nV; v++) {
+      const s = deg[v], e = deg[v + 1]; const n = e - s; let ax = 0, ay = 0, az = 0;
+      for (let j = s; j < e; j++) { const u = nb[j] * 3; ax += cur[u]; ay += cur[u + 1]; az += cur[u + 2]; }
+      const o = v * 3;
+      if (n === 0) { nxt[o] = cur[o]; nxt[o + 1] = cur[o + 1]; nxt[o + 2] = cur[o + 2]; continue; }
+      nxt[o] = cur[o] + f * (ax / n - cur[o]); nxt[o + 1] = cur[o + 1] + f * (ay / n - cur[o + 1]); nxt[o + 2] = cur[o + 2] + f * (az / n - cur[o + 2]);
+    }
+    [cur, nxt] = [nxt, cur];
+  }
+  pos.set(cur);
+}
 
 const srgb2lin = (c) => (c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
 const toHex = (c) => '#' + c.slice(0, 3).map((x) => Math.round(x * 255).toString(16).padStart(2, '0')).join('');
@@ -124,8 +148,9 @@ for (const [id, ver, file] of JOBS) {
   }
   for (const m of root.listMaterials()) if (!mats.has(m.getName())) m.dispose();
 
-  // 3) 焊接 + 减面
+  // 3) 焊接 + 平滑 + 减面
   await doc.transform(weld({ tolerance: 1e-4 }));
+  if (cfg.smooth) for (const mesh of root.listMeshes()) for (const p of mesh.listPrimitives()) { const a = p.getAttribute('POSITION'); const arr = a.getArray(); taubin(arr, p.getIndices().getArray(), cfg.smooth); a.setArray(arr); }
   let trisBefore = 0;
   for (const { p } of prims) trisBefore += p.getIndices().getCount() / 3;
   if (cfg.ratio < 1 || cfg.error > 0) {
