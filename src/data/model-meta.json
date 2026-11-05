@@ -1,0 +1,310 @@
+{
+ "claude-v1": {
+  "size_mm": [
+   85.6,
+   43.9,
+   42.5
+  ],
+  "parts": [
+   {
+    "name": "body",
+    "hex": "#d97757"
+   },
+   {
+    "name": "hat",
+    "hex": "#7a4a28"
+   },
+   {
+    "name": "black",
+    "hex": "#1e1e1e"
+   },
+   {
+    "name": "white",
+    "hex": "#fafaf8"
+   }
+  ],
+  "trisBefore": 249998,
+  "trisAfter": 54996,
+  "bytes": 249504
+ },
+ "codex-v1": {
+  "size_mm": [
+   36.3,
+   59,
+   20.7
+  ],
+  "parts": [
+   {
+    "name": "black",
+    "hex": "#1c1c1e"
+   },
+   {
+    "name": "white",
+    "hex": "#fafaf8"
+   },
+   {
+    "name": "green",
+    "hex": "#10a37f"
+   }
+  ],
+  "trisBefore": 212652,
+  "trisAfter": 46782,
+  "bytes": 219784
+ },
+ "qoder-v1": {
+  "size_mm": [
+   50.7,
+   40.5,
+   23.6
+  ],
+  "parts": [
+   {
+    "name": "black",
+    "hex": "#1a1a1c"
+   },
+   {
+    "name": "green",
+    "hex": "#2adb5c"
+   },
+   {
+    "name": "white",
+    "hex": "#f5f5f2"
+   }
+  ],
+  "trisBefore": 323742,
+  "trisAfter": 71220,
+  "bytes": 310692
+ },
+ "zcode-v1": {
+  "size_mm": [
+   44.2,
+   45,
+   26
+  ],
+  "parts": [
+   {
+    "name": "black",
+    "hex": "#18181a"
+   },
+   {
+    "name": "blue",
+    "hex": "#3a6eff"
+   },
+   {
+    "name": "white",
+    "hex": "#f8f8f6"
+   }
+  ],
+  "trisBefore": 215198,
+  "trisAfter": 47342,
+  "bytes": 209220
+ },
+ "notion-v1": {
+  "size_mm": [
+   45.9,
+   39,
+   35.5
+  ],
+  "parts": [
+   {
+    "name": "white",
+    "hex": "#fafaf8"
+   },
+   {
+    "name": "pink",
+    "hex": "#ff96aa"
+   },
+   {
+    "name": "black",
+    "hex": "#161616"
+   }
+  ],
+  "trisBefore": 365030,
+  "trisAfter": 80304,
+  "bytes": 334332
+ },
+ "antigravity-v1": {
+  "size_mm": [
+   59.1,
+   48.9,
+   17.7
+  ],
+  "parts": [
+   {
+    "name": "yellow",
+    "hex": "#fbbc05"
+   },
+   {
+    "name": "blue",
+    "hex": "#4285f4"
+   },
+   {
+    "name": "red",
+    "hex": "#ea4335"
+   },
+   {
+    "name": "green",
+    "hex": "#34a853"
+   },
+   {
+    "name": "black",
+    "hex": "#191919"
+   }
+  ],
+  "trisBefore": 159612,
+  "trisAfter": 35108,
+  "bytes": 164868
+ },
+ "claude-pixel": {
+  "size_mm": [
+   68,
+   44.5,
+   36
+  ],
+  "parts": [
+   {
+    "name": "black",
+    "hex": "#1c1c1e"
+   },
+   {
+    "name": "orange",
+    "hex": "#d97757"
+   },
+   {
+    "name": "brown",
+    "hex": "#7a4a28"
+   }
+  ],
+  "trisBefore": 146608,
+  "trisAfter": 2814,
+  "bytes": 21288
+ },
+ "codex-pixel": {
+  "size_mm": [
+   46,
+   59,
+   35
+  ],
+  "parts": [
+   {
+    "name": "black",
+    "hex": "#1c1c1e"
+   },
+   {
+    "name": "green",
+    "hex": "#10a37f"
+   },
+   {
+    "name": "white",
+    "hex": "#f5f5f2"
+   }
+  ],
+  "trisBefore": 93712,
+  "trisAfter": 2304,
+  "bytes": 19528
+ },
+ "qoder-pixel": {
+  "size_mm": [
+   56,
+   49,
+   31
+  ],
+  "parts": [
+   {
+    "name": "black",
+    "hex": "#1a1a1c"
+   },
+   {
+    "name": "white",
+    "hex": "#f5f5f2"
+   },
+   {
+    "name": "green",
+    "hex": "#2adb5c"
+   }
+  ],
+  "trisBefore": 108012,
+  "trisAfter": 2550,
+  "bytes": 21228
+ },
+ "zcode-pixel": {
+  "size_mm": [
+   43,
+   51,
+   35
+  ],
+  "parts": [
+   {
+    "name": "black",
+    "hex": "#18181a"
+   },
+   {
+    "name": "white",
+    "hex": "#f8f8f6"
+   },
+   {
+    "name": "blue",
+    "hex": "#3a6eff"
+   }
+  ],
+  "trisBefore": 97912,
+  "trisAfter": 4294,
+  "bytes": 24292
+ },
+ "notion-pixel": {
+  "size_mm": [
+   46,
+   41,
+   39
+  ],
+  "parts": [
+   {
+    "name": "black",
+    "hex": "#161616"
+   },
+   {
+    "name": "white",
+    "hex": "#fafaf8"
+   },
+   {
+    "name": "pink",
+    "hex": "#ff96aa"
+   }
+  ],
+  "trisBefore": 117848,
+  "trisAfter": 7228,
+  "bytes": 35164
+ },
+ "antigravity-pixel": {
+  "size_mm": [
+   71,
+   53,
+   21
+  ],
+  "parts": [
+   {
+    "name": "black",
+    "hex": "#191919"
+   },
+   {
+    "name": "blue",
+    "hex": "#4285f4"
+   },
+   {
+    "name": "red",
+    "hex": "#ea4335"
+   },
+   {
+    "name": "yellow",
+    "hex": "#fbbc05"
+   },
+   {
+    "name": "green",
+    "hex": "#34a853"
+   }
+  ],
+  "trisBefore": 79768,
+  "trisAfter": 2930,
+  "bytes": 26608
+ }
+}
