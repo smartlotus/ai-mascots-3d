@@ -126,7 +126,7 @@ export class Viewer {
     const parts = new Map<string, Mesh>();
     inner.traverse((o) => { const m = o as Mesh; if (m.isMesh) { parts.set(m.name, m); m.userData.base = m.position.clone(); } });
     const disc = new Mesh(this.discGeo, this.discMat); disc.receiveShadow = true; disc.castShadow = false; disc.visible = !this.opts.poster;
-    const blob = new Mesh(new PlaneGeometry(2.9, 2.9), this.blobMat); blob.rotation.x = -Math.PI / 2; blob.position.y = 0.002; blob.renderOrder = -1;
+    const blob = new Mesh(new PlaneGeometry(this.opts.poster ? 1.5 : 2.6, this.opts.poster ? 1.5 : 2.6), this.blobMat); blob.rotation.x = -Math.PI / 2; blob.position.y = 0.002; blob.renderOrder = -1;
     root.add(disc, blob);
     this.scene.add(root);
     return { id, ver, root, inner, parts, disc, baseScale, height: mm.y * baseScale, t0: performance.now() };
@@ -158,7 +158,7 @@ export class Viewer {
     this.slots.push(s1, s2);
     this.slots.forEach((s) => this.applyHidden(s));
     const h = Math.max(s1.height, s2.height);
-    this.frame = { halfW: 2.55, halfH: Math.max(0.7, h * 0.5 + 0.5), cy: h * 0.5 + 0.12 };
+    this.frame = { halfW: 2.45, halfH: Math.max(0.7, h * 0.5 + 0.5), cy: h * 0.5 + 0.12 };
     this.fitCamera(false);
     this.wake();
   }
