@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>AI 编程吉祥物 · 3D 展示 / AI Coding Mascots 3D</title>
+<meta name="description" content="六只以 AI 编程工具为灵感的原创 3D 吉祥物：圆润版与像素版，可旋转、缩放、拆分查看。Six original 3D mascots inspired by AI coding tools." />
+<meta name="theme-color" content="#f3f1ec" />
+<meta property="og:title" content="AI 编程吉祥物 · 3D 展示" />
+<meta property="og:description" content="六只原创 3D 吉祥物，圆润版 + 像素版，可交互旋转查看。" />
+<meta property="og:image" content="./posters/family-v1.webp" />
+<link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+<a class="skip" href="#viewer" data-i18n="skip">跳到内容</a>
+<header class="top" id="top">
+  <a class="logo" href="#viewer" aria-label="AI Mascots 3D"><span class="logo-mark" aria-hidden="true"></span><span class="logo-text">AI_MASCOTS<span class="cursor">_</span></span></a>
+  <nav class="nav" aria-label="sections">
+    <a href="#viewer" data-i18n="nav.viewer">3D 展台</a>
+    <a href="#gallery" data-i18n="nav.gallery">全家福</a>
+    <a href="#about" data-i18n="nav.about">关于</a>
+  </nav>
+  <button class="lang" id="lang" type="button" aria-label="Language">EN</button>
+</header>
+
+<main>
+  <section class="hero" id="viewer">
+    <div class="hero-head">
+      <p class="eyebrow" data-i18n="eyebrow">3D 建模 · 3D 打印 · 原创</p>
+      <h1 data-i18n="title">AI 编程吉祥物</h1>
+      <p class="lead" data-i18n="lead">六只以 AI 编程工具为灵感的小家伙，两种风格：圆润可爱版，和 2mm 像素版。拖一拖、转一转，看看他们。</p>
+    </div>
+
+    <div class="stage-col">
+      <div class="stage" id="stage" style="--accent:#d97757">
+        <img class="poster" id="poster" alt="" decoding="async" />
+        <div class="viewer-host" id="host"></div>
+        <div class="stage-ui">
+          <div class="seg" id="verSeg" role="tablist" aria-label="version">
+            <button type="button" role="tab" data-ver="v1" data-i18n="ver.v1">圆润版</button>
+            <button type="button" role="tab" data-ver="pixel" data-i18n="ver.pixel">像素版</button>
+            <span class="seg-thumb" aria-hidden="true"></span>
+          </div>
+          <div class="tools">
+            <button type="button" class="tool" id="tRotate" aria-pressed="true" data-tip="tool.rotate"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/></svg></button>
+            <button type="button" class="tool" id="tExplode" aria-pressed="false" data-tip="tool.explode"><svg viewBox="0 0 24 24"><path d="M12 3 4 7l8 4 8-4-8-4Z"/><path d="m4 12 8 4 8-4"/><path d="m4 17 8 4 8-4"/></svg></button>
+            <button type="button" class="tool" id="tCompare" aria-pressed="false" data-tip="tool.compare"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="7" height="14" rx="2"/><rect x="14" y="5" width="7" height="14" rx="2"/></svg></button>
+            <button type="button" class="tool" id="tReset" data-tip="tool.reset"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></button>
+          </div>
+          <div class="hint" id="hint" data-i18n="hint">拖动旋转 · 双指 / 滚轮缩放</div>
+          <div class="cmp-tags" id="cmpTags" hidden><span data-i18n="ver.v1">圆润版</span><span data-i18n="ver.pixel">像素版</span></div>
+        </div>
+        <div class="loading" id="loading" aria-live="polite"><span class="spinner"></span><span id="loadingText" data-i18n="loading">加载模型…</span></div>
+        <div class="nogl" id="nogl" hidden></div>
+      </div>
+      <div class="rail" id="rail" role="tablist" aria-label="mascots"></div>
+    </div>
+
+    <aside class="detail" id="detail" aria-live="polite"></aside>
+  </section>
+
+  <section class="section" id="gallery">
+    <div class="section-head">
+      <h2 data-i18n="gallery.title">全家福</h2>
+      <p data-i18n="gallery.sub">点一只，回到展台近看。</p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <figure class="family" id="family">
+      <img id="familyImg" alt="" loading="lazy" decoding="async" />
+      <figcaption id="familyCap"></figcaption>
+    </figure>
+  </section>
+
+  <section class="section" id="about">
+    <div class="section-head">
+      <h2 data-i18n="about.title">关于这组吉祥物</h2>
+    </div>
+    <div class="about-grid" id="aboutGrid"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p class="disclaimer" id="disclaimer"></p>
+  <p class="credit" id="credit"></p>
+</footer>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
