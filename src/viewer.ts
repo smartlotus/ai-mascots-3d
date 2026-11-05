@@ -1,13 +1,13 @@
 import {
-  NeutralToneMapping, AmbientLight, CanvasTexture, CircleGeometry, Color, CylinderGeometry, DirectionalLight, Group, HemisphereLight, Mesh,
-  MeshStandardMaterial, Object3D, PCFShadowMap, PMREMGenerator, PerspectiveCamera, Scene, ShadowMaterial, SRGBColorSpace, Vector3,
-  WebGLRenderer, MeshBasicMaterial, MathUtils, Box3, PlaneGeometry, LinearFilter,
+  AmbientLight, Box3, CanvasTexture, CylinderGeometry, DirectionalLight, Group, HemisphereLight, LinearFilter, MathUtils, Mesh, MeshBasicMaterial,
+  MeshStandardMaterial, NeutralToneMapping, Object3D, PCFShadowMap, PerspectiveCamera, PlaneGeometry, PMREMGenerator, Scene, SRGBColorSpace,
+  Vector3, WebGLRenderer,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
-import { MASCOTS, modelUrl, find, type Ver } from './data/mascots';
+import { modelUrl, type Ver } from './data/mascots';
 
 interface Loaded { scene: Object3D; box: Box3 }
 interface Slot {
@@ -140,7 +140,7 @@ export class Viewer {
     if (token !== this.token) { this.disposeSlot(slot); return; }
     this.slots.push(slot);
     this.applyHidden(slot);
-    this.frame = { halfW: this.opts.poster ? 1.0 : 1.3, halfH: Math.max(0.62, slot.height * 0.5 + 0.3), cy: slot.height * 0.5 + 0.12 };
+    this.frame = { halfW: this.opts.poster ? 1.0 : 1.3, halfH: Math.max(0.7, slot.height * 0.5 + 0.5), cy: slot.height * 0.5 + 0.12 };
     this.fitCamera(!opts.keepView);
     this.wake();
   }
@@ -158,7 +158,7 @@ export class Viewer {
     this.slots.push(s1, s2);
     this.slots.forEach((s) => this.applyHidden(s));
     const h = Math.max(s1.height, s2.height);
-    this.frame = { halfW: 2.55, halfH: Math.max(0.62, h * 0.5 + 0.3), cy: h * 0.5 + 0.12 };
+    this.frame = { halfW: 2.55, halfH: Math.max(0.7, h * 0.5 + 0.5), cy: h * 0.5 + 0.12 };
     this.fitCamera(false);
     this.wake();
   }
@@ -285,5 +285,3 @@ function makeBlob() {
   g.fillStyle = grd; g.fillRect(0, 0, 128, 128);
   const t = new CanvasTexture(c); t.minFilter = LinearFilter; t.colorSpace = SRGBColorSpace; return t;
 }
-export { MASCOTS, find };
-void [Color, CircleGeometry, ShadowMaterial];

@@ -1,15 +1,16 @@
 {
-  "name": "site",
+  "name": "ai-mascots-3d",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "AI 编程吉祥物 · 3D 展示 (three.js)",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4183",
+    "check": "tsc --noEmit",
+    "models": "node scripts/build-models.mjs",
+    "posters": "node scripts/make-posters.mjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "@gltf-transform/cli": "^4.5.1",
     "@gltf-transform/core": "^4.5.1",
@@ -24,5 +25,6 @@
   "dependencies": {
     "@types/three": "^0.187.0",
     "three": "^0.187.0"
-  }
+  },
+  "private": true
 }
